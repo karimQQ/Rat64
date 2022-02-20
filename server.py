@@ -62,21 +62,22 @@ async def screen():
 
 
 #asyncio.run(screen())
-
-while True:
-    for i in pygame.event.get():
-        if i.type == pygame.QUIT:
-            connect.close()
-            server.close()
-            exit(0)
-        if i.type == pygame.MOUSEBUTTONDOWN:
-            connect.send(struct.pack("b", 1))
-            connect.send(struct.pack("b", i.button))
-            x, y = i.pos[0], i.pos[1]
-            x *= client_width
-            x //= w
-            y *= client_height
-            y //= h
-            connect.send(struct.pack("h", x))
-            connect.send(struct.pack("h", y))
-    time.sleep(0.1)
+async def commands():
+    while True:
+        for i in pygame.event.get():
+            if i.type == pygame.QUIT:
+                connect.close()
+                server.close()
+                exit(0)
+            if i.type == pygame.MOUSEBUTTONDOWN:
+                connect.send(struct.pack("b", 1))
+                connect.send(struct.pack("b", i.button))
+                x, y = i.pos[0], i.pos[1]
+                x *= client_width
+                x //= w
+                y *= client_height
+                y //= h
+                connect.send(struct.pack("h", x))
+                connect.send(struct.pack("h", y))
+        time.sleep(0.1)
+asyncio.run(commands())

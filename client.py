@@ -31,7 +31,7 @@ async def send_screen():
         time.sleep(1)
 
 
-#asyncio.run(send_screen())
+# asyncio.run(send_screen())
 
 
 def read_int(f: str):
@@ -48,16 +48,19 @@ def read_int(f: str):
     return ans
 
 
-while True:
-    cmd = read_int("b")
-    if cmd == 1:
-        btn = read_int("b")
-        x = read_int("h")
-        y = read_int("h")
-        pyautogui.moveTo(x, y)
-        if btn == 1:
-            pyautogui.click()
-        elif btn == 2:
-            pyautogui.click(button='middle')
-        elif btn == 3:
-            pyautogui.click(button='right')
+async def read_commands():
+    while True:
+        cmd = read_int("b")
+        if cmd == 1:
+            btn = read_int("b")
+            x = read_int("h")
+            y = read_int("h")
+            pyautogui.moveTo(x, y)
+            if btn == 1:
+                pyautogui.click()
+            elif btn == 2:
+                pyautogui.click(button='middle')
+            elif btn == 3:
+                pyautogui.click(button='right')
+
+asyncio.run(read_commands())
