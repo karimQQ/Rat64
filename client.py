@@ -35,5 +35,9 @@ while True:
         x = read_int("h")
         y = read_int("h")
         pyautogui.moveTo(x, y)
-        pyautogui.click()
-
+        if btn == 1:
+            pyautogui.click()
+        elif btn == 2:
+            pyautogui.click(button='middle')
+        elif btn == 3:
+            pyautogui.click(button='right')
