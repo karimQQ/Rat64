@@ -44,7 +44,7 @@ while True:
             x //= w
             y *= client_height
             y //= h
-            connect.send(struct.pack("h", 0))
+            connect.send(struct.pack("b", 0))
             connect.send(struct.pack("h", x))
             connect.send(struct.pack("h", y))
     time.sleep(0.1)
