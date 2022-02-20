@@ -32,57 +32,41 @@ data = data[payload_size:]
 w, h = 1080, 720
 
 print(client_width, client_height)
+wind = pygame.display.set_mode((1080, 720))
 
+while True:
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            connect.close()
+            server.close()
+            exit(0)
+        if i.type == pygame.MOUSEBUTTONDOWN:
+            connect.send(struct.pack("b", 1))
+            connect.send(struct.pack("b", i.button))
+            x, y = i.pos[0], i.pos[1]
+            x *= client_width
+            x //= w
+            y *= client_height
+            y //= h
+            connect.send(struct.pack("h", x))
+            connect.send(struct.pack("h", y))
+    while len(data) < payload_size:
+        data += connect.recv(4096)
 
-def read_screen():
-    data1 = b''
-    while True:
-        while len(data1) < payload_size:
-            data1 += connect.recv(4096)
+    packed_msg_size = data[:payload_size]
+    data = data[payload_size:]
+    msg_size = struct.unpack("L", packed_msg_size)[0]
 
-        packed_msg_size = data1[:payload_size]
-        data1 = data1[payload_size:]
-        msg_size = struct.unpack("L", packed_msg_size)[0]
+    # Retrieve all data based on message size
+    while len(data) < msg_size:
+        data += connect.recv(4096)
 
-        # Retrieve all data based on message size
-        while len(data1) < msg_size:
-            data1 += connect.recv(4096)
+    frame_data = data[:msg_size]
+    data = data[msg_size:]
 
-        frame_data = data1[:msg_size]
-        data1 = data1[msg_size:]
+    # Extract frame
+    frame = pickle.loads(frame_data)
 
-        # Extract frame
-        frame = pickle.loads(frame_data)
-
-        # Display
-        cv2.imshow('frame', frame)
-        cv2.waitKey(1)
-
-
-def send_commands():
-    wind = pygame.display.set_mode((1080, 720))
-    while True:
-        for i in pygame.event.get():
-            if i.type == pygame.QUIT:
-                connect.close()
-                server.close()
-                exit(0)
-            if i.type == pygame.MOUSEBUTTONDOWN:
-                connect.send(struct.pack("b", 1))
-                connect.send(struct.pack("b", i.button))
-                x, y = i.pos[0], i.pos[1]
-                x *= client_width
-                x //= w
-                y *= client_height
-                y //= h
-                connect.send(struct.pack("h", x))
-                connect.send(struct.pack("h", y))
-        time.sleep(0.1)
-
-
-t1 = threading.Thread(target=read_screen)
-t2 = threading.Thread(target=send_commands)
-t1.start()
-t2.start()
-t1.join()
-t2.join()
+    # Display
+    cv2.imshow('frame', frame)
+    cv2.waitKey(1)
