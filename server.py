@@ -4,7 +4,7 @@ import struct
 import time
 import cv2
 import pickle
-import asyncio
+import threading
 
 server = socket.socket()
 server.bind(("192.168.0.110", 1234))
@@ -33,10 +33,8 @@ w, h = 1080, 720
 
 print(client_width, client_height)
 
-wind = pygame.display.set_mode((1080, 720))
 
-
-async def screen():
+def read_screen():
     data1 = b''
     while True:
         while len(data1) < payload_size:
@@ -61,8 +59,8 @@ async def screen():
         cv2.waitKey(1)
 
 
-asyncio.run(screen())
-async def commands():
+def send_commands():
+    wind = pygame.display.set_mode((1080, 720))
     while True:
         for i in pygame.event.get():
             if i.type == pygame.QUIT:
@@ -80,4 +78,11 @@ async def commands():
                 connect.send(struct.pack("h", x))
                 connect.send(struct.pack("h", y))
         time.sleep(0.1)
-asyncio.run(commands())
+
+
+t1 = threading.Thread(target=read_screen)
+t2 = threading.Thread(target=send_commands)
+t1.start()
+t2.start()
+t1.join()
+t2.join()

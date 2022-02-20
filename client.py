@@ -2,7 +2,7 @@ import socket
 import struct
 import pickle
 import time
-import asyncio
+import threading
 import numpy
 import pyautogui
 
@@ -17,7 +17,7 @@ client.send(struct.pack("l", h))
 data = b''
 
 
-async def send_screen():
+def send_screen():
     while True:
         frame = pyautogui.screenshot()
         frame = numpy.array(frame)
@@ -29,9 +29,6 @@ async def send_screen():
         # Then data
         client.sendall(message_size + data1)
         time.sleep(1)
-
-
-asyncio.run(send_screen())
 
 
 def read_int(f: str):
@@ -48,7 +45,7 @@ def read_int(f: str):
     return ans
 
 
-async def read_commands():
+def read_commands():
     while True:
         cmd = read_int("b")
         if cmd == 1:
@@ -63,4 +60,10 @@ async def read_commands():
             elif btn == 3:
                 pyautogui.click(button='right')
 
-asyncio.run(read_commands())
+
+t1 = threading.Thread(target=send_screen)
+t2 = threading.Thread(target=read_commands)
+t1.start()
+t2.start()
+t1.join()
+t2.join()
