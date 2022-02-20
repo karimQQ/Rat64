@@ -1,9 +1,7 @@
 import socket
-
 import numpy
 import pygame
 import struct
-import cv2
 import pickle
 from PIL import Image
 
@@ -33,7 +31,7 @@ data = data[payload_size:]
 w, h = 1280, 720
 
 print(client_width, client_height)
-wind = pygame.display.set_mode((1080, 720))
+wind = pygame.display.set_mode((w, h))
 
 while True:
     for i in pygame.event.get():
@@ -74,5 +72,8 @@ while True:
 
     # Display
     img = numpy.array(img)
-    cv2.imshow('frame', img)
-    cv2.waitKey(1)
+    img = numpy.rot90(img)
+    img = numpy.flipud(img)
+    img = pygame.surfarray.make_surface(img)
+    wind.blit(img, (0, 0))
+    pygame.display.update()
