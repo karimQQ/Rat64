@@ -34,3 +34,6 @@ while True:
         x = read_int("h")
         y = read_int("h")
         pyautogui.moveTo(x, y)
+    elif cmd == 1:
+        btn = read_int("b")
+        pyautogui.click()

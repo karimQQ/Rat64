@@ -47,4 +47,7 @@ while True:
             connect.send(struct.pack("b", 0))
             connect.send(struct.pack("h", x))
             connect.send(struct.pack("h", y))
+        if i.type == pygame.MOUSEBUTTONDOWN:
+            connect.send(struct.pack("b", 1))
+            connect.send(struct.pack("b", i.button))
     time.sleep(0.1)
