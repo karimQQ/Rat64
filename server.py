@@ -1,4 +1,6 @@
 import socket
+
+import numpy
 import pygame
 import struct
 import cv2
@@ -28,7 +30,7 @@ client_height = data[:payload_size]
 client_height = struct.unpack("L", client_height)[0]
 data = data[payload_size:]
 
-w, h = 1080, 720
+w, h = 1280, 720
 
 print(client_width, client_height)
 wind = pygame.display.set_mode((1080, 720))
@@ -66,6 +68,11 @@ while True:
     # Extract frame
     frame = pickle.loads(frame_data)
 
+    img = Image.fromarray(frame)
+
+    img = img.resize((w, h), Image.ANTIALIAS)
+
     # Display
-    cv2.imshow('frame', frame)
+    img = numpy.array(img)
+    cv2.imshow('frame', img)
     cv2.waitKey(1)

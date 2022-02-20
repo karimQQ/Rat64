@@ -5,6 +5,7 @@ import time
 import threading
 import numpy
 import pyautogui
+from PIL import Image
 
 client = socket.socket()
 client.connect(("192.168.0.110", 1234))
@@ -21,6 +22,10 @@ def send_screen():
     while True:
         frame = pyautogui.screenshot()
         frame = numpy.array(frame)
+        frame = Image.fromarray(frame)
+        frame = frame.resize((640, 360), Image.ANTIALIAS)
+        frame = numpy.array(frame)
+
         data1 = pickle.dumps(frame)
 
         # Send message length first
