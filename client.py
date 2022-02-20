@@ -34,4 +34,6 @@ while True:
         btn = read_int("b")
         x = read_int("h")
         y = read_int("h")
-        pyautogui.dragTo(x, y)
+        pyautogui.moveTo(x, y)
+        pyautogui.click()
+
