@@ -28,7 +28,7 @@ def send_screen():
 
         # Then data
         client.sendall(message_size + data1)
-        time.sleep(1)
+        time.sleep(0.5)
 
 
 def read_int(f: str):

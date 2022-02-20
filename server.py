@@ -1,10 +1,9 @@
 import socket
 import pygame
 import struct
-import time
 import cv2
 import pickle
-import threading
+from PIL import Image
 
 server = socket.socket()
 server.bind(("192.168.0.110", 1234))
