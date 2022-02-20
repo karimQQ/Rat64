@@ -2,6 +2,9 @@ import socket
 import pygame
 import struct
 import time
+import cv2
+import pickle
+import asyncio
 
 server = socket.socket()
 server.bind(("192.168.0.110", 1234))
@@ -31,6 +34,34 @@ w, h = 1080, 720
 print(client_width, client_height)
 
 wind = pygame.display.set_mode((1080, 720))
+
+
+async def screen():
+    data1 = b''
+    while True:
+        while len(data1) < payload_size:
+            data1 += connect.recv(4096)
+
+        packed_msg_size = data1[:payload_size]
+        data1 = data1[payload_size:]
+        msg_size = struct.unpack("L", packed_msg_size)[0]
+
+        # Retrieve all data based on message size
+        while len(data1) < msg_size:
+            data1 += connect.recv(4096)
+
+        frame_data = data1[:msg_size]
+        data1 = data1[msg_size:]
+
+        # Extract frame
+        frame = pickle.loads(frame_data)
+
+        # Display
+        cv2.imshow('frame', frame)
+        cv2.waitKey(1)
+
+
+asyncio.run(screen())
 
 while True:
     for i in pygame.event.get():

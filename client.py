@@ -1,6 +1,9 @@
 import socket
 import struct
-
+import pickle
+import time
+import asyncio
+import numpy
 import pyautogui
 
 client = socket.socket()
@@ -12,6 +15,23 @@ client.send(struct.pack("l", w))
 client.send(struct.pack("l", h))
 
 data = b''
+
+
+async def send_screen():
+    while True:
+        frame = pyautogui.screenshot()
+        frame = numpy.array(frame)
+        data1 = pickle.dumps(frame)
+
+        # Send message length first
+        message_size = struct.pack("L", len(data1))
+
+        # Then data
+        client.sendall(message_size + data1)
+        time.sleep(1)
+
+
+asyncio.run(send_screen())
 
 
 def read_int(f: str):
