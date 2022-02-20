@@ -61,7 +61,7 @@ async def screen():
         cv2.waitKey(1)
 
 
-asyncio.run(screen())
+#asyncio.run(screen())
 
 while True:
     for i in pygame.event.get():

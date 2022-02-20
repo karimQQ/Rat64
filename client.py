@@ -31,7 +31,7 @@ async def send_screen():
         time.sleep(1)
 
 
-asyncio.run(send_screen())
+#asyncio.run(send_screen())
 
 
 def read_int(f: str):
