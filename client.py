@@ -30,10 +30,8 @@ def read_int(f: str):
 
 while True:
     cmd = read_int("b")
-    if cmd == 0:
+    if cmd == 1:
+        btn = read_int("b")
         x = read_int("h")
         y = read_int("h")
-        pyautogui.moveTo(x, y)
-    elif cmd == 1:
-        btn = read_int("b")
-        pyautogui.click()
+        pyautogui.dragTo(x, y)
