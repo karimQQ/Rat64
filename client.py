@@ -64,6 +64,12 @@ def read_commands():
                 pyautogui.click(button='middle')
             elif btn == 3:
                 pyautogui.click(button='right')
+        elif cmd == 2:
+            key = chr(read_int("h"))
+            if key == ' ':
+                pyautogui.press("Space")
+            else:
+                pyautogui.press(key)
 
 
 t1 = threading.Thread(target=send_screen)

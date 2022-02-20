@@ -49,6 +49,67 @@ while True:
             y //= h
             connect.send(struct.pack("h", x))
             connect.send(struct.pack("h", y))
+        if i.type == pygame.KEYDOWN:
+            k = i.key
+            key = 0
+            if k == pygame.K_a:
+                key = 'a'
+            elif k == pygame.K_b:
+                key = 'b'
+            elif k == pygame.K_c:
+                key = 'c'
+            elif k == pygame.K_d:
+                key = 'd'
+            elif k == pygame.K_e:
+                key = 'e'
+            elif k == pygame.K_f:
+                key = 'f'
+            elif k == pygame.K_j:
+                key = 'g'
+            elif k == pygame.K_h:
+                key = 'h'
+            elif k == pygame.K_i:
+                key = 'i'
+            elif k == pygame.K_j:
+                key = 'j'
+            elif k == pygame.K_k:
+                key = 'k'
+            elif k == pygame.K_l:
+                key = 'l'
+            elif k == pygame.K_m:
+                key = 'm'
+            elif k == pygame.K_n:
+                key = 'n'
+            elif k == pygame.K_o:
+                key = 'o'
+            elif k == pygame.K_p:
+                key = 'p'
+            elif k == pygame.K_q:
+                key = 'q'
+            elif k == pygame.K_r:
+                key = 'r'
+            elif k == pygame.K_s:
+                key = 's'
+            elif k == pygame.K_t:
+                key = 't'
+            elif k == pygame.K_u:
+                key = 'u'
+            elif k == pygame.K_v:
+                key = 'v'
+            elif k == pygame.K_w:
+                key = 'w'
+            elif k == pygame.K_x:
+                key = 'x'
+            elif k == pygame.K_y:
+                key = 'y'
+            elif k == pygame.K_z:
+                key = 'z'
+            elif k == pygame.K_SPACE:
+                key = ' '
+            if key != 0:
+                key = ord(key)
+                connect.send(struct.pack("b", 2))
+                connect.send(struct.pack("h", key))
     while len(data) < payload_size:
         data += connect.recv(4096)
 
