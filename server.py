@@ -6,7 +6,7 @@ import pickle
 from PIL import Image
 
 server = socket.socket()
-server.bind(("192.168.244.232", 1234))
+server.bind(("10.18.0.144", 1234))
 server.listen(1)
 connect, address = server.accept()
 

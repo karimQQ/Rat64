@@ -8,7 +8,7 @@ import pyautogui
 from PIL import Image
 
 client = socket.socket()
-client.connect(("192.168.244.232", 1234))
+client.connect(("10.18.0.144", 1234))
 
 w, h = pyautogui.size()
 
