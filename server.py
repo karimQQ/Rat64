@@ -6,7 +6,7 @@ import pickle
 from PIL import Image
 
 server = socket.socket()
-server.bind(("192.168.0.110", 1234))
+server.bind(("192.168.244.232", 1234))
 server.listen(1)
 connect, address = server.accept()
 
@@ -64,7 +64,7 @@ while True:
                 key = 'e'
             elif k == pygame.K_f:
                 key = 'f'
-            elif k == pygame.K_j:
+            elif k == pygame.K_g:
                 key = 'g'
             elif k == pygame.K_h:
                 key = 'h'
